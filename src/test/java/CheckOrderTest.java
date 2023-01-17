@@ -20,22 +20,24 @@ public class CheckOrderTest {
     private final String phoneNumber;
     private final String comment;
     private final String metro;
+    private static String orderButton;
 
     //конструктор
-    public CheckOrderTest (String name, String lastname, String address, String phoneNumber, String comment, String metro) {
+    public CheckOrderTest (String name, String lastname, String address, String phoneNumber, String comment, String metro, String orderButton) {
         this.name = name;
         this.lastName = lastname;
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.comment = comment;
         this.metro = metro;
+        this.orderButton = orderButton;
     }
 
     @Parameterized.Parameters
     public static String[][] orderInfo() {
         return new String[][] {
-                {"Наталья", "Ямова", "Галерная", "99999999999", "Привезите цветы", "Преображенская площадь"},
-                {"Имя", "Фамилия", "Адрес", "99999999998", "Комментарий", "Библиотека имени Ленина"}
+                {"Наталья", "Ямова", "Галерная", "99999999999", "Привезите цветы", "Преображенская площадь", HomePage.headerOrderButton},
+                {"Имя", "Фамилия", "Адрес", "99999999998", "Комментарий", "Библиотека имени Ленина", HomePage.homeFinishOrderButton}
         };
     }
 
@@ -66,9 +68,9 @@ public class CheckOrderTest {
 
     //тест для проверки заказа через кнопку Заказать в хедере стартовой страницы
     @Test
-    public void ScooterTest1() {
+    public void scooterTest() {
         //метод для нажатия на кнопку Заказать в хедере стартовой страницы
-        objHomePage.clickHeaderOrderButton();
+        objHomePage.clickHeaderOrderButton(orderButton);
         //ожидание прогрузки страницы
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         //метод проверяет отображение страницы формы заказа
@@ -94,37 +96,6 @@ public class CheckOrderTest {
         objRentPage.isOrderIsMadeWindowDisplayed();
     }
 
-    //тест для проверки заказа через кнопку Заказать в хедере стартовой страницы
-    @Test
-    public void ScooterTest2() {
-        //метод скролла страницы
-        objHomePage.scrollImportantQuestions();
-        //метод для нажатия на кнопку Заказать внизу стартовой страницы
-        objHomePage.clickHomeFinishOrderButton();
-        //ожидание прогрузки страницы
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        //метод проверяет отображение страницы формы заказа
-        objOrderPage.isOrderPageDisplayed();
-        //методы заполнения деталей заказа самоката
-        objOrderPage.setName(name);
-        objOrderPage.setLastName(lastName);
-        objOrderPage.setAddress(address);
-        objOrderPage.checkMetro(metro);
-        objOrderPage.setPhoneNumber(phoneNumber);
-        objOrderPage.clickNextButton();
-        //методы заполнения деталей аренды самоката
-        objRentPage.checkDate();
-        objRentPage.checkRentDate();
-        objRentPage.clickCheckBoxGrey();
-        objRentPage.setComment(comment);
-        objRentPage.clickOrderButton();
-        //ожидание прогрузки страницы
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        //метод кликает по кнопке ДА
-        objRentPage.clickYesOrderButton();
-        //метод ожидания прогрузки окна Заказ оформлен
-        objRentPage.isOrderIsMadeWindowDisplayed();
-    }
 
     @After
     public void teardown() {

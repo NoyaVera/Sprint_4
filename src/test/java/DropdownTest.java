@@ -16,16 +16,10 @@ import static ru.yandex.pageObject.Constans.*;
 // Класс с автотестом
 @RunWith(Parameterized.class)
 public class DropdownTest {
-    // выбор браузера
-    WebDriver driver = new ChromeDriver();
-    // WebDriver driver = new FirefoxDriver();
-
-    // Объект класса страницы HomePage
-    HomePage objHomePage = new HomePage(driver);
     //Переменная для локатора вопросов
-    private final String actualQuestion;
+    private static String actualQuestion;
     //Переменная для локатора ответов
-    private final String actualAnswer;
+    private static String actualAnswer;
     //Переменная для ожидаемого текста
     private final String expectedText;
 
@@ -39,16 +33,23 @@ public class DropdownTest {
     @Parameterized.Parameters
     public static Object[][] getResult() {
         return new Object[][] {
-                {"accordion__heading-0", "accordion__panel-0", ANSWER0},
-                {"accordion__heading-1", "accordion__panel-1", ANSWER1},
-                {"accordion__heading-2", "accordion__panel-2", ANSWER2},
-                {"accordion__heading-3", "accordion__panel-3", ANSWER3},
-                {"accordion__heading-4", "accordion__panel-4", ANSWER4},
-                {"accordion__heading-5", "accordion__panel-5", ANSWER5},
-                {"accordion__heading-6", "accordion__panel-6", ANSWER6},
-                {"accordion__heading-7", "accordion__panel-7", ANSWER7},
+                {HomePage.actualQuestion0, HomePage.actualAnswer0, ANSWER0},
+                {HomePage.actualQuestion1, HomePage.actualAnswer1, ANSWER1},
+                {HomePage.actualQuestion2, HomePage.actualAnswer2, ANSWER2},
+                {HomePage.actualQuestion3, HomePage.actualAnswer3, ANSWER3},
+                {HomePage.actualQuestion4, HomePage.actualAnswer4, ANSWER4},
+                {HomePage.actualQuestion5, HomePage.actualAnswer5, ANSWER5},
+                {HomePage.actualQuestion6, HomePage.actualAnswer6, ANSWER6},
+                {HomePage.actualQuestion7, HomePage.actualAnswer7, ANSWER7},
         };
     }
+
+    // выбор браузера
+    WebDriver driver = new ChromeDriver();
+    //WebDriver driver = new FirefoxDriver();
+
+    // Объект класса страницы HomePage
+    HomePage objHomePage = new HomePage(driver);
 
     @Before
     public void beforeTestingSite() {
@@ -64,7 +65,7 @@ public class DropdownTest {
     }
 
     @Test
-    public void QuestionsTest(){
+    public void questionsTest(){
         driver.findElement(By.id(actualQuestion)).click();
         String actualAnswerText = driver.findElement(By.id(actualAnswer)).getText();
         Assert.assertEquals(expectedText, actualAnswerText);
